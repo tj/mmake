@@ -123,7 +123,8 @@ If you're looking to find or share makefiles check out the [Wiki](https://github
 
 ## Links
 
-- [Wiki / Registry](https://github.com/tj/mmake/wiki/Registry)
+- [Wiki](https://github.com/tj/mmake/wiki/Registry) registry
+- [Announcement](https://medium.com/@tjholowaychuk/modern-make-b55d53cf80d9#.q1u1knrf5) blog post
 
 ## Badges
 
