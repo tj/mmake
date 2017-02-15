@@ -21,16 +21,11 @@ alias make=mmake
 
 ## Features
 
-- Remote includes
-- Target help output
-
 ### Help output
 
-Make's primary function is not to serve as a "task runner", however it's often used for that scenario due to its ubiquitous nature.
+Make's primary function is not to serve as a "task runner", however it's often used for that scenario due to its ubiquitous nature, and if you're already using it, why not! Make is however lacking a built-in mechanism for displaying help information.
 
-Since it was not designed for this, its support for outputting target (or "task") help documentation" does not really exist.
-
-Suppose you have the following makefile, standard Make has no notion comments tied to a given target, but wrapping make can provide this.
+Here's an example Makefile:
 
 ```Makefile
 # Start the dev server.
@@ -60,7 +55,7 @@ size:
 
 ```
 
-For example output all target docs:
+Mmake provides a `help` command to display all target comments in short form:
 
 ```
 $ alias make=mmake
@@ -73,7 +68,7 @@ $ make help
 
 ```
 
-Or output verbose help output of a single target:
+The `help <target>` command is also supported to display long form:
 
 ```
 $ make help start
