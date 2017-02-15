@@ -7,7 +7,7 @@ and eventually more.
 
 ## Installation
 
-Grab a [binary]() or:
+Grab a [binary](https://github.com/tj/mmake/releases) or:
 
 ```
 $ go get github.com/tj/mmake/cmd/mmake
