@@ -27,7 +27,7 @@ func tree(dir string) (string, error) {
 
 // Remove junk.
 func remove() error {
-	return os.RemoveAll("/usr/local/include/github.com/tj")
+	return os.RemoveAll("/tmp/include/github.com/tj")
 }
 
 func ExampleInstaller_Parse() {
@@ -35,7 +35,7 @@ func ExampleInstaller_Parse() {
 
 	config := installer.Config{
 		Resolver:    resolver.NewGithubResolver(),
-		Destination: "/usr/local/include",
+		Destination: "/tmp/include",
 		Log:         log.Log,
 	}
 
@@ -53,7 +53,7 @@ include github.com/tj/foo/foo.mk
 		log.WithError(err).Fatal("installing")
 	}
 
-	s, err := tree("/usr/local/include/github.com")
+	s, err := tree("/tmp/include/github.com")
 	if err != nil {
 		log.WithError(err).Fatal("tree")
 	}
@@ -61,7 +61,7 @@ include github.com/tj/foo/foo.mk
 	fmt.Printf("%s\n", s)
 
 	// Output:
-	// /usr/local/include/github.com
+	// /tmp/include/github.com
 	// └── tj
 	//     └── foo
 	//         ├── bar
@@ -76,7 +76,7 @@ func ExampleInstaller_Install() {
 
 	config := installer.Config{
 		Resolver:    resolver.NewGithubResolver(),
-		Destination: "/usr/local/include",
+		Destination: "/tmp/include",
 		Log:         log.Log,
 	}
 
@@ -91,7 +91,7 @@ func ExampleInstaller_Install() {
 		log.WithError(err).Fatal("installing")
 	}
 
-	s, err := tree("/usr/local/include/github.com")
+	s, err := tree("/tmp/include/github.com")
 	if err != nil {
 		log.WithError(err).Fatal("tree")
 	}
@@ -99,7 +99,7 @@ func ExampleInstaller_Install() {
 	fmt.Printf("%s\n", s)
 
 	// Output:
-	// /usr/local/include/github.com
+	// /tmp/include/github.com
 	// └── tj
 	//     └── foo
 	//         ├── bar
@@ -113,7 +113,7 @@ func ExampleInstaller_Install_many() {
 
 	config := installer.Config{
 		Resolver:    resolver.NewGithubResolver(),
-		Destination: "/usr/local/include",
+		Destination: "/tmp/include",
 		Log:         log.Log,
 	}
 
@@ -130,7 +130,7 @@ func ExampleInstaller_Install_many() {
 		log.WithError(err).Fatal("installing")
 	}
 
-	s, err := tree("/usr/local/include/github.com")
+	s, err := tree("/tmp/include/github.com")
 	if err != nil {
 		log.WithError(err).Fatal("tree")
 	}
@@ -138,7 +138,7 @@ func ExampleInstaller_Install_many() {
 	fmt.Printf("%s\n", s)
 
 	// Output:
-	// /usr/local/include/github.com
+	// /tmp/include/github.com
 	// └── tj
 	//     └── foo
 	//         ├── bar
