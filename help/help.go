@@ -27,7 +27,7 @@ func OutputAllShort(r io.Reader, w io.Writer) error {
 			continue
 		}
 
-		fmt.Fprintf(w, "  %-10s %-s\n", c.Target, firstLine(c.Value))
+		fmt.Fprintf(w, "  %-15s %-s\n", c.Target, firstLine(c.Value))
 	}
 
 	fmt.Fprintf(w, "\n")
