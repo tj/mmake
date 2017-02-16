@@ -21,6 +21,7 @@ func OutputAllShort(r io.Reader, w io.Writer) error {
 
 	comments := filterComments(nodes)
 	sort.Sort(byTarget(comments))
+	width := targetWidth(comments)
 
 	fmt.Fprintf(w, "\n")
 
@@ -29,7 +30,7 @@ func OutputAllShort(r io.Reader, w io.Writer) error {
 			continue
 		}
 
-		fmt.Fprintf(w, "  %-15s %-s\n", c.Target, firstLine(c.Value))
+		fmt.Fprintf(w, "  %-*s %-s\n", width+2, c.Target, firstLine(c.Value))
 	}
 
 	fmt.Fprintf(w, "\n")
@@ -78,6 +79,17 @@ type byTarget []parser.Comment
 func (v byTarget) Len() int           { return len(v) }
 func (v byTarget) Swap(i, j int)      { v[i], v[j] = v[j], v[i] }
 func (v byTarget) Less(i, j int) bool { return v[i].Target < v[j].Target }
+
+// Target width from the given comments.
+func targetWidth(comments []parser.Comment) (n int) {
+	for _, c := range comments {
+		if len(c.Target) > n {
+			n = len(c.Target)
+		}
+	}
+
+	return
+}
 
 // First line of `s`.
 func firstLine(s string) string {
