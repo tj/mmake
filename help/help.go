@@ -4,6 +4,7 @@ package help
 import (
 	"fmt"
 	"io"
+	"sort"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -18,12 +19,13 @@ func OutputAllShort(r io.Reader, w io.Writer) error {
 		return errors.Wrap(err, "parsing")
 	}
 
+	comments := filterComments(nodes)
+	sort.Sort(byTarget(comments))
+
 	fmt.Fprintf(w, "\n")
 
-	for _, n := range nodes {
-		c, ok := n.(parser.Comment)
-
-		if !ok || c.Target == "" {
+	for _, c := range comments {
+		if c.Target == "" {
 			continue
 		}
 
@@ -41,12 +43,13 @@ func OutputTargetLong(r io.Reader, w io.Writer, target string) error {
 		return errors.Wrap(err, "parsing")
 	}
 
+	comments := filterComments(nodes)
+	sort.Sort(byTarget(comments))
+
 	fmt.Fprintf(w, "\n")
 
-	for _, n := range nodes {
-		c, ok := n.(parser.Comment)
-
-		if !ok || c.Target != target {
+	for _, c := range comments {
+		if c.Target != target {
 			continue
 		}
 
@@ -57,6 +60,24 @@ func OutputTargetLong(r io.Reader, w io.Writer, target string) error {
 	fmt.Fprintf(w, "\n")
 	return nil
 }
+
+// Filter comment nodes.
+func filterComments(nodes []parser.Node) (comments []parser.Comment) {
+	for _, n := range nodes {
+		if c, ok := n.(parser.Comment); ok {
+			comments = append(comments, c)
+		}
+	}
+
+	return
+}
+
+// Sort by comment target string.
+type byTarget []parser.Comment
+
+func (v byTarget) Len() int           { return len(v) }
+func (v byTarget) Swap(i, j int)      { v[i], v[j] = v[j], v[i] }
+func (v byTarget) Less(i, j int) bool { return v[i].Target < v[j].Target }
 
 // First line of `s`.
 func firstLine(s string) string {
