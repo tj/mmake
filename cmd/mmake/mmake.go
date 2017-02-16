@@ -18,13 +18,7 @@ import (
 
 func init() {
 	log.SetHandler(cli.Default)
-
-	level, err := log.ParseLevel(env.GetDefault("LOG_LEVEL", "warning"))
-	if err != nil {
-		panic("invalid log level")
-	}
-
-	log.SetLevel(level)
+	log.SetLevel(log.MustParseLevel(env.GetDefault("LOG_LEVEL", "warning")))
 }
 
 func main() {
