@@ -58,8 +58,8 @@ func (i *Installer) Parse(r io.Reader) error {
 
 // Install the given dependencies.
 func (i *Installer) Install(paths []string) error {
-	done := make(chan struct{})
-	errs := make(chan error)
+	done := make(chan struct{}, len(paths))
+	errs := make(chan error, len(paths))
 
 	for _, path := range paths {
 		path := path
