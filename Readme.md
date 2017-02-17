@@ -123,6 +123,7 @@ If you're looking to find or share makefiles check out the [Wiki](https://github
 
 ## Links
 
+- [GNU Make](https://www.gnu.org/software/make/manual/make.html) documentation
 - [Wiki](https://github.com/tj/mmake/wiki/Registry) registry
 - [Announcement](https://medium.com/@tjholowaychuk/modern-make-b55d53cf80d9#.q1u1knrf5) blog post
 
