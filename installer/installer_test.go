@@ -14,7 +14,7 @@ import (
 )
 
 func init() {
-	log.SetLevel(log.DebugLevel)
+	log.SetLevel(log.WarnLevel)
 	log.SetHandler(cli.Default)
 }
 
@@ -61,14 +61,14 @@ include github.com/tj/foo/foo.mk
 	fmt.Printf("%s\n", s)
 
 	// Output:
-	// /tmp/include/github.com
+	// github.com
 	// └── tj
 	//     └── foo
 	//         ├── bar
 	//         ├── foo
 	//         └── foo.mk
 	//
-	// 2 directories, 3 files
+	// 3 directories, 3 files
 }
 
 func ExampleInstaller_Install() {
@@ -99,13 +99,13 @@ func ExampleInstaller_Install() {
 	fmt.Printf("%s\n", s)
 
 	// Output:
-	// /tmp/include/github.com
+	// github.com
 	// └── tj
 	//     └── foo
 	//         ├── bar
 	//         └── foo.mk
 	//
-	// 2 directories, 2 files
+	// 3 directories, 2 files
 }
 
 func ExampleInstaller_Install_many() {
@@ -138,18 +138,18 @@ func ExampleInstaller_Install_many() {
 	fmt.Printf("%s\n", s)
 
 	// Output:
-	// /tmp/include/github.com
+	// github.com
 	// └── tj
 	//     └── foo
 	//         ├── bar
 	//         ├── deps
-	//         │   ├── bar.mk
-	//         │   ├── baz
-	//         │   └── foo
+	//         │   ├── bar.mk
+	//         │   ├── baz
+	//         │   └── foo
 	//         ├── foo.mk
 	//         └── some
 	//             └── nested
 	//                 └── stuff.mk
 	//
-	// 5 directories, 6 files
+	// 6 directories, 6 files
 }
