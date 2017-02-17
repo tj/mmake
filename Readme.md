@@ -115,7 +115,7 @@ include github.com/apex/make/node
 include github.com/apex/make/golang
 ```
 
-If you're worried about arbitrary code execution, then simply fork a project and maintain keep the code private.
+If you're worried about arbitrary code execution, then simply fork a project and maintain/keep the code private.
 
 ## Registry
 
