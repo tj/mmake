@@ -90,26 +90,22 @@ func (p *Parser) pushInclude() {
 
 // Parse the input.
 func (p *Parser) parse() error {
-next:
-	switch {
-	case p.i == len(p.lines)-1:
-		return nil
-	case len(p.peek()) == 0:
-		p.pushComment()
-		p.advance()
-		goto next
-	case p.peek()[0] == '#':
-		p.bufferComment()
-		goto next
-	case strings.HasPrefix(p.peek(), "include "):
-		p.pushInclude()
-		goto next
-	case strings.ContainsRune(p.peek(), ':'):
-		p.target = strings.Split(p.advance(), ":")[0]
-		p.pushComment()
-		goto next
-	default:
-		p.advance()
-		goto next
+	for {
+		switch {
+		case p.i == len(p.lines)-1:
+			return nil
+		case len(p.peek()) == 0:
+			p.pushComment()
+			p.advance()
+		case p.peek()[0] == '#':
+			p.bufferComment()
+		case strings.HasPrefix(p.peek(), "include "):
+			p.pushInclude()
+		case strings.ContainsRune(p.peek(), ':'):
+			p.target = strings.Split(p.advance(), ":")[0]
+			p.pushComment()
+		default:
+			p.advance()
+		}
 	}
 }
