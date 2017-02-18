@@ -126,6 +126,7 @@ If you're looking to find or share makefiles check out the [Wiki](https://github
 - [GNU Make](https://www.gnu.org/software/make/manual/make.html) documentation
 - [Wiki](https://github.com/tj/mmake/wiki/Registry) registry
 - [Announcement](https://medium.com/@tjholowaychuk/modern-make-b55d53cf80d9#.q1u1knrf5) blog post
+- [Introduction](https://www.youtube.com/watch?v=NLS_gbg4_wI) youtube video
 
 ## Badges
 
