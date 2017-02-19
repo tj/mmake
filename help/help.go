@@ -14,17 +14,13 @@ import (
 
 // OutputAllShort outputs all short help representations to the given writer.
 func OutputAllShort(r io.Reader, w io.Writer) error {
-	nodes, err := parser.ParseRecursive(r, "/usr/local/include")
+	comments, err := getComments(r)
 	if err != nil {
-		return errors.Wrap(err, "parsing")
+		return err
 	}
 
-	comments := filterComments(nodes)
-	sort.Sort(byTarget(comments))
 	width := targetWidth(comments)
-
 	fmt.Fprintf(w, "\n")
-
 	for _, c := range comments {
 		if c.Target == "" {
 			continue
@@ -37,29 +33,56 @@ func OutputAllShort(r io.Reader, w io.Writer) error {
 	return nil
 }
 
-// OutputTargetLong outputs long help representation of the given target.
-func OutputTargetLong(r io.Reader, w io.Writer, target string) error {
-	nodes, err := parser.ParseRecursive(r, "/usr/local/include")
+// OutputAllLong outputs all long help representations to the given writer.
+func OutputAllLong(r io.Reader, w io.Writer) error {
+	comments, err := getComments(r)
 	if err != nil {
-		return errors.Wrap(err, "parsing")
+		return err
 	}
 
-	comments := filterComments(nodes)
-	sort.Sort(byTarget(comments))
+	fmt.Fprintf(w, "\n")
+	for _, c := range comments {
+		if c.Target == "" {
+			continue
+		}
+
+		fmt.Fprintf(w, "  %-s:\n%-s\n\n", c.Target, indent(indent(c.Value)))
+	}
 
 	fmt.Fprintf(w, "\n")
+	return nil
+}
 
+// OutputTargetLong outputs long help representation of the given target.
+func OutputTargetLong(r io.Reader, w io.Writer, target string) error {
+	comments, err := getComments(r)
+	if err != nil {
+		return err
+	}
+
+	fmt.Fprintf(w, "\n")
 	for _, c := range comments {
 		if c.Target != target {
 			continue
 		}
 
 		fmt.Fprintf(w, "%s\n", indent(c.Value))
-		break
 	}
 
 	fmt.Fprintf(w, "\n")
 	return nil
+}
+
+// getComments parses, filters, and sorts all comment nodes.
+func getComments(r io.Reader) ([]parser.Comment, error) {
+	nodes, err := parser.ParseRecursive(r, "/usr/local/include")
+	if err != nil {
+		return nil, errors.Wrap(err, "parsing")
+	}
+
+	comments := filterComments(nodes)
+	sort.Sort(byTarget(comments))
+	return comments, nil
 }
 
 // Filter comment nodes.
