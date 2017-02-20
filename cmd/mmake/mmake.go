@@ -41,7 +41,13 @@ func main() {
 
 	// output target help
 	if len(os.Args) > 2 && os.Args[1] == "help" {
-		err := help.OutputTargetLong(bytes.NewReader(b), os.Stdout, os.Args[2])
+		var err error
+		if os.Args[2] == "-v" {
+			err = help.OutputAllLong(bytes.NewReader(b), os.Stdout)
+		} else {
+			err = help.OutputTargetLong(bytes.NewReader(b), os.Stdout, os.Args[2])
+		}
+
 		if err != nil {
 			log.WithError(err).Fatal("outputting help")
 		}

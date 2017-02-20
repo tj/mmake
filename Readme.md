@@ -80,6 +80,28 @@ $ make help start
 
 ```
 
+The `-v` verbose flag can be used to display long form for all targets:
+
+```
+$ make help -v
+
+  start:
+    Start the dev server.
+
+    Note that the API server must
+    also be running.
+
+  api:    
+    Start the API server.
+
+  deps:       
+    Display dependency graph.
+
+  size:
+    Display size of dependencies.
+    
+```
+
 The default behaviour of Make is of course preserved:
 
 ```
