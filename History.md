@@ -1,4 +1,11 @@
 
+v1.0.3 / 2017-02-28
+===================
+
+  * add verbose flag for 'help' command
+  * fix local includes. Closes #13
+  * fix hacky tests for now. Closes #4
+
 v1.0.2 / 2017-02-17
 ===================
 
