@@ -26,7 +26,7 @@ func (r *github) Get(s string) (io.ReadCloser, error) {
 	}
 
 	if u.Host != "github.com" {
-		return nil, errors.New("only github.com is currently supported")
+		return nil, ErrNotSupported
 	}
 
 	parts := strings.SplitN(u.Path, "/", 4)

@@ -45,6 +45,7 @@ func ExampleInstaller_Parse() {
 include github.com/tj/foo/foo
 include github.com/tj/foo/bar
 include github.com/tj/foo/foo.mk
+include something.mk
 	`)
 
 	err := i.Parse(r)

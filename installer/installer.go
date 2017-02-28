@@ -87,24 +87,32 @@ func (i *Installer) Install(paths []string) error {
 }
 
 // Install the dependency with lookup variants.
-func (i *Installer) installDependencyWithVariants(path string) (err error) {
+func (i *Installer) installDependencyWithVariants(path string) error {
 	suffixes := []string{"", ".mk", "/index.mk"}
 
 	for _, suffix := range suffixes {
-		err = i.installDependency(path+suffix, path)
+		err := i.installDependency(path+suffix, path)
 
+		// Unsupported (aka not github.com/* etc)
+		if err == resolver.ErrNotSupported {
+			return nil
+		}
+
+		// Remote not found, continue variants
 		if err == resolver.ErrNotFound {
 			continue
 		}
 
+		// Resolution error
 		if err != nil {
 			return err
 		}
 
+		// Found it
 		return nil
 	}
 
-	return
+	return resolver.ErrNotFound
 }
 
 // Install dependency at the given path, stored using the original
