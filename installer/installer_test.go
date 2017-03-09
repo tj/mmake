@@ -2,9 +2,11 @@ package installer_test
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"os/exec"
 	"strings"
+	"testing"
 
 	"github.com/apex/log"
 	"github.com/apex/log/handlers/cli"
@@ -153,4 +155,53 @@ func ExampleInstaller_Install_many() {
 	//                 └── stuff.mk
 	//
 	// 6 directories, 6 files
+}
+
+type mockResolver struct {
+	getFn func(string) (io.ReadCloser, error)
+}
+
+func (m mockResolver) Get(s string) (io.ReadCloser, error) { return m.getFn(s) }
+
+func TestInstaller_Update(t *testing.T) {
+	remove()
+
+	var resolved bool
+	m := mockResolver{
+		getFn: func(path string) (io.ReadCloser, error) {
+			resolved = true
+			return resolver.NewGithubResolver().Get(path)
+		},
+	}
+
+	config := installer.Config{
+		Resolver:    m,
+		Destination: "/tmp/include",
+		Log:         log.Log,
+	}
+
+	i := installer.New(config)
+
+	checkResolve := func(expect bool, update bool, msg string) {
+		i.Config.ForceUpdate = update
+
+		err := i.Install([]string{"github.com/tj/foo/bar"})
+		if err != nil {
+			log.WithError(err).Fatal("installing")
+		}
+
+		if resolved != expect {
+			t.Fatal(msg)
+		}
+		resolved = false
+	}
+
+	// Doesn't exist, should resolve
+	checkResolve(true, false, "Dependency should resolve when it doesn't exist yet")
+
+	// Exists, shouldn't resolve
+	checkResolve(false, false, "Dependency should not resolve when it already exists")
+
+	// Exists but update = true, should resolve
+	checkResolve(true, true, "Dependency should always resolve when update = true")
 }
