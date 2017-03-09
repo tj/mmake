@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"io"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -22,6 +23,11 @@ func init() {
 }
 
 func main() {
+	var cmd string
+	if len(os.Args) > 1 {
+		cmd = os.Args[1]
+	}
+
 	// read Makefile
 	b, err := ioutil.ReadFile("Makefile")
 	if err != nil {
@@ -33,19 +39,31 @@ func main() {
 		Resolver:    resolver.NewGithubResolver(),
 		Destination: "/usr/local/include",
 		Log:         log.Log,
+		ForceUpdate: cmd == "update",
 	})
 
 	if err := i.Parse(bytes.NewReader(b)); err != nil {
 		log.WithError(err).Fatal("installing")
 	}
 
+	switch cmd {
+	case "update":
+		return
+	case "help":
+		doHelp(bytes.NewReader(b))
+	default:
+		passThrough()
+	}
+}
+
+func doHelp(r io.Reader) {
 	// output target help
-	if len(os.Args) > 2 && os.Args[1] == "help" {
+	if len(os.Args) > 2 {
 		var err error
 		if os.Args[2] == "-v" {
-			err = help.OutputAllLong(bytes.NewReader(b), os.Stdout)
+			err = help.OutputAllLong(r, os.Stdout)
 		} else {
-			err = help.OutputTargetLong(bytes.NewReader(b), os.Stdout, os.Args[2])
+			err = help.OutputTargetLong(r, os.Stdout, os.Args[2])
 		}
 
 		if err != nil {
@@ -55,21 +73,20 @@ func main() {
 	}
 
 	// output all help
-	if len(os.Args) > 1 && os.Args[1] == "help" {
-		err := help.OutputAllShort(bytes.NewReader(b), os.Stdout)
-		if err != nil {
-			log.WithError(err).Fatal("outputting help")
-		}
-		return
+	err := help.OutputAllShort(r, os.Stdout)
+	if err != nil {
+		log.WithError(err).Fatal("outputting help")
 	}
+}
 
+func passThrough() {
 	// make pass-through
 	cmd := exec.Command("make", os.Args[1:]...)
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 
-	err = cmd.Run()
+	err := cmd.Run()
 
 	if e, ok := err.(*exec.ExitError); ok {
 		if status, ok := e.Sys().(syscall.WaitStatus); ok {

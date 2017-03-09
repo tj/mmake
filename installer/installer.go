@@ -20,6 +20,7 @@ type Config struct {
 	Destination string             // Destination of stored files.
 	Resolver    resolver.Interface // Resolver implementation.
 	Log         log.Interface      // Log implementation.
+	ForceUpdate bool               // If true, ignore cached depdendencies.
 }
 
 // Installer fetches and resolves dependencies recursively
@@ -124,9 +125,11 @@ func (i *Installer) installDependency(path, orig string) error {
 	ctx := i.Log.WithField("path", path)
 
 	// see if it exists
-	if _, err := os.Stat(dst); err == nil {
-		ctx.Debug("exists")
-		return nil
+	if !i.Config.ForceUpdate {
+		if _, err := os.Stat(dst); err == nil {
+			ctx.Debug("exists")
+			return nil
+		}
 	}
 
 	// fetch it
