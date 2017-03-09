@@ -1,4 +1,9 @@
 
+v1.1.0 / 2017-03-09
+===================
+
+  * add 'update' command to force updating includes
+
 v1.0.3 / 2017-02-28
 ===================
 
