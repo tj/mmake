@@ -50,20 +50,21 @@ func main() {
 	case "update":
 		return
 	case "help":
-		doHelp(bytes.NewReader(b))
+		doHelp(bytes.NewReader(b), os.Args[2:])
 	default:
-		passThrough()
+		passThrough(os.Args[1:])
 	}
 }
 
-func doHelp(r io.Reader) {
-	// output target help
-	if len(os.Args) > 2 {
+// doHelp outputs target comments.
+func doHelp(r io.Reader, args []string) {
+	if len(args) > 0 {
 		var err error
-		if os.Args[2] == "-v" {
+
+		if args[0] == "-v" {
 			err = help.OutputAllLong(r, os.Stdout)
 		} else {
-			err = help.OutputTargetLong(r, os.Stdout, os.Args[2])
+			err = help.OutputTargetLong(r, os.Stdout, args[0])
 		}
 
 		if err != nil {
@@ -79,9 +80,9 @@ func doHelp(r io.Reader) {
 	}
 }
 
-func passThrough() {
-	// make pass-through
-	cmd := exec.Command("make", os.Args[1:]...)
+// passThrough executes make.
+func passThrough(args []string) {
+	cmd := exec.Command("make", args...)
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
