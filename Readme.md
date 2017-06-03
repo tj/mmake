@@ -47,6 +47,7 @@ deps:
 .PHONY: deps
 
 # Display size of dependencies.
+#- Any comment preceded by a dash is omitted.
 size:
 	@gopherjs build client/*.go -m -o /tmp/out.js
 	@du -h /tmp/out.js
