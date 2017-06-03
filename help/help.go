@@ -68,10 +68,8 @@ func getComments(r io.Reader, targets []string) ([]parser.Comment, error) {
 
 // Filter comment nodes.
 func filterComments(nodes []parser.Node, targets []string) (comments []parser.Comment) {
-Outer:
 	for _, n := range nodes {
 		c, ok := n.(parser.Comment)
-
 		if !ok {
 			continue
 		}
@@ -84,7 +82,7 @@ Outer:
 		for _, t := range targets {
 			if match, _ := filepath.Match(t, c.Target); match {
 				comments = append(comments, c)
-				continue Outer
+				break
 			}
 		}
 	}
