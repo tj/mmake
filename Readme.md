@@ -161,6 +161,7 @@ If you're looking to find or share makefiles check out the [Wiki](https://github
 - [Wiki](https://github.com/tj/mmake/wiki/Registry) registry
 - [Announcement](https://medium.com/@tjholowaychuk/modern-make-b55d53cf80d9#.q1u1knrf5) blog post
 - [Introduction](https://www.youtube.com/watch?v=NLS_gbg4_wI) youtube video
+- [AUR Package](https://aur.archlinux.org/packages/mmake-bin/) Arch Linux Package
 
 ## Badges
 
