@@ -4,6 +4,7 @@ package help
 import (
 	"fmt"
 	"io"
+	"path/filepath"
 	"sort"
 	"strings"
 
@@ -13,8 +14,8 @@ import (
 )
 
 // OutputAllShort outputs all short help representations to the given writer.
-func OutputAllShort(r io.Reader, w io.Writer) error {
-	comments, err := getComments(r)
+func OutputAllShort(r io.Reader, w io.Writer, targets []string) error {
+	comments, err := getComments(r, targets)
 	if err != nil {
 		return err
 	}
@@ -34,8 +35,8 @@ func OutputAllShort(r io.Reader, w io.Writer) error {
 }
 
 // OutputAllLong outputs all long help representations to the given writer.
-func OutputAllLong(r io.Reader, w io.Writer) error {
-	comments, err := getComments(r)
+func OutputAllLong(r io.Reader, w io.Writer, targets []string) error {
+	comments, err := getComments(r, targets)
 	if err != nil {
 		return err
 	}
@@ -53,43 +54,38 @@ func OutputAllLong(r io.Reader, w io.Writer) error {
 	return nil
 }
 
-// OutputTargetLong outputs long help representation of the given target.
-func OutputTargetLong(r io.Reader, w io.Writer, target string) error {
-	comments, err := getComments(r)
-	if err != nil {
-		return err
-	}
-
-	fmt.Fprintf(w, "\n")
-	for _, c := range comments {
-		if c.Target != target {
-			continue
-		}
-
-		fmt.Fprintf(w, "%s\n", indent(c.Value))
-	}
-
-	fmt.Fprintf(w, "\n")
-	return nil
-}
-
 // getComments parses, filters, and sorts all comment nodes.
-func getComments(r io.Reader) ([]parser.Comment, error) {
+func getComments(r io.Reader, targets []string) ([]parser.Comment, error) {
 	nodes, err := parser.ParseRecursive(r, "/usr/local/include")
 	if err != nil {
 		return nil, errors.Wrap(err, "parsing")
 	}
 
-	comments := filterComments(nodes)
+	comments := filterComments(nodes, targets)
 	sort.Sort(byTarget(comments))
 	return comments, nil
 }
 
 // Filter comment nodes.
-func filterComments(nodes []parser.Node) (comments []parser.Comment) {
+func filterComments(nodes []parser.Node, targets []string) (comments []parser.Comment) {
+Outer:
 	for _, n := range nodes {
-		if c, ok := n.(parser.Comment); ok {
+		c, ok := n.(parser.Comment)
+
+		if !ok {
+			continue
+		}
+
+		if len(targets) == 0 {
 			comments = append(comments, c)
+			continue
+		}
+
+		for _, t := range targets {
+			if match, _ := filepath.Match(t, c.Target); match {
+				comments = append(comments, c)
+				continue Outer
+			}
 		}
 	}
 
