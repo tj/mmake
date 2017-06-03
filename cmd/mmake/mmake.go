@@ -58,23 +58,16 @@ func main() {
 
 // doHelp outputs target comments.
 func doHelp(r io.Reader, args []string) {
-	if len(args) > 0 {
-		var err error
+	var err error
 
-		if args[0] == "-v" {
-			err = help.OutputAllLong(r, os.Stdout)
-		} else {
-			err = help.OutputTargetLong(r, os.Stdout, args[0])
-		}
-
-		if err != nil {
-			log.WithError(err).Fatal("outputting help")
-		}
-		return
+	if len(args) == 0 {
+		err = help.OutputAllShort(r, os.Stdout, []string{})
+	} else if args[0] == "-v" || args[0] == "--verbose" {
+		err = help.OutputAllLong(r, os.Stdout, args[1:])
+	} else {
+		err = help.OutputAllShort(r, os.Stdout, args)
 	}
 
-	// output all help
-	err := help.OutputAllShort(r, os.Stdout)
 	if err != nil {
 		log.WithError(err).Fatal("outputting help")
 	}

@@ -68,10 +68,24 @@ $ make help
 
 ```
 
-The `help <target>` command is also supported to display long form:
+You can optionally filter which commands to view the help dialogue for (this supports [standard Unix glob patterns](https://en.wikipedia.org/wiki/Glob_(programming)#Syntax)):
 
 ```
 $ make help start
+
+  start   Start the dev server.
+
+$ make help s*
+
+  size    Display size of dependencies.
+  start   Start the dev server.
+
+```
+
+The `help` command also supports displaying longer output with the verbose flag (`-v` / `--verbose`):
+
+```
+$ make help -v start
 
   Start the dev server.
 
@@ -79,8 +93,6 @@ $ make help start
   also be running.
 
 ```
-
-The `-v` verbose flag can be used to display long form for all targets:
 
 ```
 $ make help -v
