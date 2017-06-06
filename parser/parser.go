@@ -56,9 +56,15 @@ func (p *Parser) advance() string {
 func (p *Parser) bufferComment() {
 	s := p.advance()[1:]
 
-	// leading space
-	if len(s) > 0 && s[0] == ' ' {
-		s = s[1:]
+	if len(s) > 0 {
+		if s[0] == '-' {
+			return
+		}
+
+		// leading space
+		if s[0] == ' ' {
+			s = s[1:]
+		}
 	}
 
 	p.commentBuf = append(p.commentBuf, s)
