@@ -11,6 +11,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/tj/mmake/parser"
+	"github.com/tj/mmake/resolver"
 )
 
 // OutputAllShort outputs all short help representations to the given writer.
@@ -56,7 +57,7 @@ func OutputAllLong(r io.Reader, w io.Writer, targets []string) error {
 
 // getComments parses, filters, and sorts all comment nodes.
 func getComments(r io.Reader, targets []string) ([]parser.Comment, error) {
-	nodes, err := parser.ParseRecursive(r, "/usr/local/include")
+	nodes, err := parser.ParseRecursive(r, resolver.IncludePath)
 	if err != nil {
 		return nil, errors.Wrap(err, "parsing")
 	}
