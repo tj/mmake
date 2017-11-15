@@ -11,13 +11,13 @@ func TestGetIncludePath(t *testing.T) {
 		Args     []string
 		Expected string
 	}{
-		{[]string{}, "/usr/local/include"},
+		{[]string{}, resolver.DefaultIncludePath},
 		{[]string{"update", "-I", "./relative/path"}, "./relative/path"},
 		{[]string{"update", "-I./other/path"}, "./other/path"},
 		{[]string{"update", "-I./other/path", "-I", "multiple/"}, "./other/path"},
 		{[]string{"-I", "multiple/"}, "multiple/"},
-		{[]string{"-I"}, "/usr/local/include"},
-		{[]string{"update"}, "/usr/local/include"},
+		{[]string{"-I"}, resolver.DefaultIncludePath},
+		{[]string{"update"}, resolver.DefaultIncludePath},
 	}
 
 	for _, c := range cases {
