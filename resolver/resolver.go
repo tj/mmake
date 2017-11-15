@@ -38,7 +38,7 @@ func GetIncludePath(args []string) string {
 	IncludePath = DefaultIncludePath
 
 	for idx, arg := range args {
-		if arg == "-I" && len(args) >= idx {
+		if arg == "-I" && len(args) > idx+1 {
 			IncludePath = args[idx+1]
 			break
 		} else if arg[:2] == "-I" && len(arg) > 2 {

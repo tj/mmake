@@ -16,6 +16,7 @@ func TestGetIncludePath(t *testing.T) {
 		{[]string{"update", "-I./other/path"}, "./other/path"},
 		{[]string{"update", "-I./other/path", "-I", "multiple/"}, "./other/path"},
 		{[]string{"-I", "multiple/"}, "multiple/"},
+		{[]string{"-I"}, "/usr/local/include"},
 		{[]string{"update"}, "/usr/local/include"},
 	}
 
