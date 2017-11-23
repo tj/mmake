@@ -43,6 +43,12 @@ size:
 	@gopher-count /tmp/out.js | sort -nr
 .PHONY: size
 
+.PHONY: dummy
+# Just a comment.
+# Just another comment.
+dummy:
+	@ls
+
 `
 
 	p := parser.New()
@@ -63,6 +69,7 @@ size:
 	// parser.Comment{Target:"api", Value:"Start the API server."}
 	// parser.Comment{Target:"deps", Value:"Display dependency graph."}
 	// parser.Comment{Target:"size", Value:"Display size of dependencies.\n\n- foo\n- bar\n- baz"}
+	// parser.Comment{Target:"dummy", Value:"Just a comment.\nJust another comment."}
 }
 
 func ExampleParser_Parse_withoutComments() {

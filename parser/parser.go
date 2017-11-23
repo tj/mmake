@@ -100,6 +100,8 @@ func (p *Parser) parse() error {
 		switch {
 		case p.i == len(p.lines)-1:
 			return nil
+		case strings.HasPrefix(p.peek(), ".PHONY"):
+			p.advance()
 		case len(p.peek()) == 0:
 			p.pushComment()
 			p.advance()
