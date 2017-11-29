@@ -1,4 +1,11 @@
 
+v1.3.0 / 2017-11-28
+===================
+
+  * add the ability to resolve locally
+  * add: ignore lines with a .PHONY prefix
+  * add: omit comments preceded by a dash
+
 v1.2.0 / 2017-06-02
 ===================
 
