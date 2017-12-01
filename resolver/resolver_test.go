@@ -46,9 +46,9 @@ func TestLocal(t *testing.T) {
 		Path    string
 		Content string
 	}{
-		{"fixtures/foo/bar", "$(info bar)\n"},
-		{"fixtures/foo/foo.mk", "$(info foo)\n"},
-		{"fixtures/foo/baz/stuff.mk", "$(info baz)\n"},
+		{"fixtures/bar", "$(info bar)\n"},
+		{"fixtures/foo.mk", "$(info foo)\n"},
+		{"fixtures/baz/stuff.mk", "$(info baz)\n"},
 	}
 
 	for _, c := range cases {
@@ -78,7 +78,7 @@ func TestUniversal(t *testing.T) {
 		Path    string
 		Content string
 	}{
-		{"fixtures/foo/bar", "$(info bar)\n"},
+		{"fixtures/bar", "$(info bar)\n"},
 		{"github.com/tj/foo/bar", "$(info bar)\n"},
 	}
 
