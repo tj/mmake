@@ -64,12 +64,12 @@ dummy:
 
 	// Output:
 	// parser.Include{Value:"github.com/tj/foo"}
-	// parser.Comment{Target:"", Value:"Stuff here:\n\n   :)"}
-	// parser.Comment{Target:"start", Value:"Start the dev server."}
-	// parser.Comment{Target:"api", Value:"Start the API server."}
-	// parser.Comment{Target:"deps", Value:"Display dependency graph."}
-	// parser.Comment{Target:"size", Value:"Display size of dependencies.\n\n- foo\n- bar\n- baz"}
-	// parser.Comment{Target:"dummy", Value:"Just a comment.\nJust another comment."}
+	// parser.Comment{Target:"", Value:"Stuff here:\n\n   :)", Default:false}
+	// parser.Comment{Target:"start", Value:"Start the dev server.", Default:false}
+	// parser.Comment{Target:"api", Value:"Start the API server.", Default:false}
+	// parser.Comment{Target:"deps", Value:"Display dependency graph.", Default:false}
+	// parser.Comment{Target:"size", Value:"Display size of dependencies.\n\n- foo\n- bar\n- baz", Default:false}
+	// parser.Comment{Target:"dummy", Value:"Just a comment.\nJust another comment.", Default:false}
 }
 
 func ExampleParser_Parse_withoutComments() {
