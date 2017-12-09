@@ -34,9 +34,6 @@ type Interface interface {
 
 // GetIncludePath allows the include path to be overridden.
 func GetIncludePath(args []string) string {
-	// always reset the global IncludePath to the default
-	IncludePath = DefaultIncludePath
-
 	for idx, arg := range args {
 		if arg == "-I" && len(args) > idx+1 {
 			IncludePath = args[idx+1]

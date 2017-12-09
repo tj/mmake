@@ -23,6 +23,9 @@ func TestGetIncludePath(t *testing.T) {
 
 	for _, c := range cases {
 		t.Run(c.Expected, func(t *testing.T) {
+			// always reset the global IncludePath to the default for consistent test results
+			resolver.IncludePath = resolver.DefaultIncludePath
+
 			out := resolver.GetIncludePath(c.Args)
 			if out != c.Expected {
 				t.Errorf("expected %q, got %q", c.Expected, out)
