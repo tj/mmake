@@ -1,4 +1,4 @@
-![Modern Make](https://dl.dropboxusercontent.com/u/6396913/mmake/gh-title.png)
+# Modern Make
 
 ## About
 
