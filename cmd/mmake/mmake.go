@@ -28,8 +28,18 @@ func main() {
 		cmd = os.Args[1]
 	}
 
+	makefileName := "Makefile"
+	_, err := os.Stat(makefileName)
+	if os.IsNotExist(err) {
+		makefileName = "GNUmakefile"
+	}
+	_, err = os.Stat(makefileName)
+	if os.IsNotExist(err) {
+		log.WithError(err).Fatal("No Makefile (or GNUmakefile) found")
+	}
+
 	// read Makefile
-	b, err := ioutil.ReadFile("Makefile")
+	b, err := ioutil.ReadFile(makefileName)
 	if err != nil {
 		log.WithError(err).Fatal("reading makefile")
 	}
