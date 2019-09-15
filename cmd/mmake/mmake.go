@@ -8,7 +8,7 @@ import (
 	"os/exec"
 	"syscall"
 
-	"github.com/apex/log"
+	log "github.com/apex/log"
 	"github.com/apex/log/handlers/cli"
 
 	"github.com/tj/mmake/help"
