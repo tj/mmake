@@ -64,14 +64,14 @@ include something.mk
 	fmt.Printf("%s\n", s)
 
 	// Output:
-	// github.com
+	// /tmp/include/github.com
 	// └── tj
 	//     └── foo
 	//         ├── bar
 	//         ├── foo
 	//         └── foo.mk
 	//
-	// 3 directories, 3 files
+	// 2 directories, 3 files
 }
 
 func ExampleInstaller_Install() {
@@ -102,13 +102,13 @@ func ExampleInstaller_Install() {
 	fmt.Printf("%s\n", s)
 
 	// Output:
-	// github.com
+	// /tmp/include/github.com
 	// └── tj
 	//     └── foo
 	//         ├── bar
 	//         └── foo.mk
 	//
-	// 3 directories, 2 files
+	// 2 directories, 2 files
 }
 
 func ExampleInstaller_Install_many() {
@@ -141,20 +141,20 @@ func ExampleInstaller_Install_many() {
 	fmt.Printf("%s\n", s)
 
 	// Output:
-	// github.com
+	// /tmp/include/github.com
 	// └── tj
 	//     └── foo
 	//         ├── bar
 	//         ├── deps
-	//         │   ├── bar.mk
-	//         │   ├── baz
-	//         │   └── foo
+	//         │   ├── bar.mk
+	//         │   ├── baz
+	//         │   └── foo
 	//         ├── foo.mk
 	//         └── some
 	//             └── nested
 	//                 └── stuff.mk
 	//
-	// 6 directories, 6 files
+	// 5 directories, 6 files
 }
 
 type mockResolver struct {
