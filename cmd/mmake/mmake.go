@@ -37,7 +37,7 @@ func main() {
 	// ensure deps are installed
 	i := installer.New(installer.Config{
 		Resolver:    resolver.NewUniversalResolver(),
-		Destination: "/usr/local/include",
+		Destination: resolver.GetIncludePath(os.Args[1:]),
 		Log:         log.Log,
 		ForceUpdate: cmd == "update",
 	})
