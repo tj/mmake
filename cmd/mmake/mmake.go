@@ -2,19 +2,23 @@ package main
 
 import (
 	"bytes"
+	"errors"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"os"
 	"os/exec"
 	"syscall"
 
-	"github.com/apex/log"
+	log "github.com/apex/log"
 	"github.com/apex/log/handlers/cli"
 
 	"github.com/tj/mmake/help"
 	"github.com/tj/mmake/installer"
 	"github.com/tj/mmake/resolver"
 )
+
+var makefileVariants = [3]string{"GNUmakefile", "makefile", "Makefile"}
 
 func init() {
 	var level = os.Getenv("LOG_LEVEL")
@@ -31,8 +35,12 @@ func main() {
 		cmd = os.Args[1]
 	}
 
-	// read Makefile
-	b, err := ioutil.ReadFile("Makefile")
+	f, err := findMakefile()
+	if err != nil {
+		log.WithError(err).Fatal("Unable to find makefile")
+	}
+
+	b, err := ioutil.ReadFile(f)
 	if err != nil {
 		log.WithError(err).Fatal("reading makefile")
 	}
@@ -96,4 +104,26 @@ func passThrough(args []string) {
 	if err != nil {
 		log.WithError(err).Fatal("executing")
 	}
+}
+
+// Follows the manual from GNUMake which will attempt the following
+// three filenames until successfully reading the first one:
+// GNUmakefile, makefile and Makefile
+// https://www.gnu.org/software/make/manual/make.html#Makefile-Names
+// GNUmakefile, makefile and Makefile
+func findMakefile() (string, error) {
+	for _, m := range makefileVariants {
+		if fileExists(m) {
+			return m, nil
+		}
+	}
+	return "", errors.New("No makefile found among in: " + fmt.Sprint(makefileVariants))
+}
+
+func fileExists(filename string) bool {
+	info, err := os.Stat(filename)
+	if os.IsNotExist(err) {
+		return false
+	}
+	return !info.IsDir()
 }

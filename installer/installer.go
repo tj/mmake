@@ -123,6 +123,8 @@ func (i *Installer) installDependency(path, orig string) error {
 	dir := filepath.Join(i.Destination, filepath.Dir(orig))
 	dst := filepath.Join(i.Destination, orig)
 	ctx := i.Log.WithField("path", path)
+	i.Log.WithField("dir", dir)
+	i.Log.WithField("dst", dst)
 
 	// see if it exists
 	if !i.Config.ForceUpdate {

@@ -127,7 +127,7 @@ $ make size
 
 ### Remote includes
 
-Includes may specify a URL for inclusion, which are automatically downloaded to /usr/local/include and become available to Make. Note that make resolves includes to this directory by default, so the Makefile will still work for regular users.
+Includes may specify a URL (http, https, or github shortcut) for inclusion, which are automatically downloaded to /usr/local/include and become available to Make. Note that make resolves includes to this directory by default, so the Makefile will still work for regular users.
 
 Includes are resolved recursively. For example you may have a standard set of includes for your team to run tests, lint, and deploy:
 
@@ -135,6 +135,8 @@ Includes are resolved recursively. For example you may have a standard set of in
 include github.com/apex/make/deploy
 include github.com/apex/make/lint
 include github.com/apex/make/test
+include https://github.com/apex/make/test/Makefile
+include https://github.com/apex/make/test/make.mk
 ```
 
 This can be a lot to remember, so you could also provide a file which includes the others:

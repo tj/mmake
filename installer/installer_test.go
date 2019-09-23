@@ -21,6 +21,7 @@ func init() {
 }
 
 // Tree shim.
+// Using tree 1.8.0. Will differ if using campoy/tools/tree.
 func tree(dir string) (string, error) {
 	cmd := exec.Command("tree", dir)
 	b, err := cmd.CombinedOutput()
