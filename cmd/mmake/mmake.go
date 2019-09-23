@@ -10,7 +10,6 @@ import (
 
 	"github.com/apex/log"
 	"github.com/apex/log/handlers/cli"
-	"github.com/segmentio/go-env"
 
 	"github.com/tj/mmake/help"
 	"github.com/tj/mmake/installer"
@@ -18,8 +17,12 @@ import (
 )
 
 func init() {
+	var level = os.Getenv("LOG_LEVEL")
+	if level == "" {
+		level = "warning"
+	}
 	log.SetHandler(cli.Default)
-	log.SetLevel(log.MustParseLevel(env.GetDefault("LOG_LEVEL", "warning")))
+	log.SetLevel(log.MustParseLevel(level))
 }
 
 func main() {
