@@ -8,6 +8,7 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/fatih/color"
 	"github.com/pkg/errors"
 
 	"github.com/tj/mmake/parser"
@@ -59,7 +60,7 @@ func OutputAllLong(r io.Reader, w io.Writer, targets []string) error {
 // getComments parses, filters, and sorts all comment nodes.
 func getComments(r io.Reader, targets []string) ([]parser.Comment, error) {
 	nodes, err := parser.ParseRecursive(r, resolver.IncludePath)
-  
+
 	if err != nil {
 		return nil, errors.Wrap(err, "parsing")
 	}
@@ -126,7 +127,7 @@ func printVerbose(w io.Writer, c parser.Comment) (int, error) {
 		c.Value = c.Value + " (default)"
 	}
 
-	return fmt.Fprintf(w, "  %-s:\n%-s\n\n", c.Target, indent(indent(c.Value)))
+	return fmt.Fprintf(w, "  %-s:\n%-s\n\n", color.HiBlueString(c.Target), indent(indent(c.Value)))
 }
 
 func printShort(w io.Writer, c parser.Comment, width int) (int, error) {
@@ -135,5 +136,5 @@ func printShort(w io.Writer, c parser.Comment, width int) (int, error) {
 		comment = comment + " (default)"
 	}
 
-	return fmt.Fprintf(w, "  %-*s %-s\n", width+2, c.Target, comment)
+	return fmt.Fprintf(w, "  %-*s %-s\n", width+2, color.HiBlueString(c.Target), comment)
 }
