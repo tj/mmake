@@ -168,7 +168,6 @@ If you're looking to find or share makefiles check out the [Wiki](https://github
 
 ## Badges
 
-[![Build Status](https://semaphoreci.com/api/v1/tj/mmake/branches/master/badge.svg)](https://semaphoreci.com/tj/mmake)
 [![GoDoc](https://godoc.org/github.com/tj/mmake?status.svg)](https://godoc.org/github.com/tj/mmake)
 ![](https://img.shields.io/badge/license-MIT-blue.svg)
 ![](https://img.shields.io/badge/status-stable-green.svg)
