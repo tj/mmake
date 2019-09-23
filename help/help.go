@@ -23,7 +23,7 @@ func OutputAllShort(r io.Reader, w io.Writer, targets []string) error {
 		return err
 	}
 
-	width := targetWidth(comments)
+	width := targetWidth(comments) + 15
 	fmt.Fprintf(w, "\n")
 	for _, c := range comments {
 		if c.Target == "" {
@@ -136,5 +136,5 @@ func printShort(w io.Writer, c parser.Comment, width int) (int, error) {
 		comment = comment + " (default)"
 	}
 
-	return fmt.Fprintf(w, "  %-*s %-s\n", width+2, color.HiBlueString(c.Target), comment)
+	return fmt.Fprintf(w, "  %-*s %-s\n", width+2, color.HiBlueString(c.Target), indent(indent(comment)))
 }
