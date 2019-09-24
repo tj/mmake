@@ -13,12 +13,13 @@ import (
 	log "github.com/apex/log"
 	"github.com/apex/log/handlers/cli"
 
+	"github.com/tj/mmake/export"
 	"github.com/tj/mmake/help"
 	"github.com/tj/mmake/installer"
 	"github.com/tj/mmake/resolver"
 )
 
-var makefileVariants = [3]string{"GNUmakefile", "makefile", "Makefile"}
+var makefileVariants = [3]string{"GNUmakefile", "Makefile", "makefile"}
 
 func init() {
 	var level = os.Getenv("LOG_LEVEL")
@@ -62,6 +63,9 @@ func main() {
 		return
 	case "help":
 		doHelp(bytes.NewReader(b), os.Args[2:])
+	case "export":
+		s, _ := export.Export(f, bytes.NewReader(b))
+		fmt.Println(s)
 	default:
 		passThrough(os.Args[1:])
 	}
