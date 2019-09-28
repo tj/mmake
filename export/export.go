@@ -17,30 +17,61 @@ func Export(makefilePath string, b *bytes.Reader) (string, error) {
 	if err != nil {
 		log.Fatalf("Cannot find full path of %s", makefilePath)
 	}
-	fmt.Printf("Path: %s", path)
 
 	includes := IncludedMakefilePaths(path)
-	return fmt.Sprintf("%+v", includes), nil
+	exported := ProcessMakefile(path, includes, []string{})
+	return fmt.Sprintf("%+v", strings.Join(exported, "\n")+"\n"), nil
 }
 
-func ProcessMakefile(path string, b *bytes.Reader, includes []string) []string {
+func read(file string) ([]byte, error) {
+	content, err := ioutil.ReadFile(file)
+	if err != nil {
+		return []byte{}, err
+	}
+
+	return content, nil
+}
+
+func getFullIncludePath(partial string, includes []string) string {
+	for _, fullPath := range includes {
+		m := strings.Index(fullPath, partial)
+		//fmt.Printf("Is match? %s %s %d\n", partial, fullPath, m)
+		if m != -1 {
+			return fullPath
+		}
+	}
+	return ""
+}
+
+func ProcessMakefile(path string, includes []string, outputLines []string) []string {
 	// TODO: figure out how to save this info and append to output string
+	f, err := read(path)
+	if err != nil {
+		log.Fatalf("Unable to read %s with error: %s", path, err)
+	}
+	b := bytes.NewBuffer(f)
 	scanner := bufio.NewScanner(b)
 	for scanner.Scan() {
 		txt := scanner.Text()
 		if strings.HasPrefix(txt, "include ") {
+			outputLines = append(outputLines, fmt.Sprintf("#- start=%s", txt))
 			// recursive call process_makefile
 			line := strings.SplitN(txt, " ", 2)
 			// lookup line in include paths
-			ProcessMakefile(line[1], bytes.NewReader(b), includes)
+			fullPath := getFullIncludePath(line[1], includes)
+			for _, l := range ProcessMakefile(fullPath, includes, []string{}) {
+				outputLines = append(outputLines, l)
+			}
+			outputLines = append(outputLines, fmt.Sprintf("#- end=%s", txt))
 		} else {
+			outputLines = append(outputLines, txt)
 		}
-		fmt.Println(scanner.Text()) // Println will add back the final '\n'
 	}
 	if err := scanner.Err(); err != nil {
 		fmt.Fprintln(os.Stderr, "reading standard input:", err)
 	}
 
+	return outputLines
 }
 
 func IncludedMakefilePaths(path string) []string {
@@ -73,6 +104,14 @@ mmake_includes:
 	if err := tmpfile.Close(); err != nil {
 		log.Fatal(err)
 	}
+	var result []string
 
-	return files[1:]
+	for i, f := range files {
+		ft := strings.TrimSpace(f)
+		if i != 0 && ft != "" {
+			result = append(result, ft)
+		}
+	}
+
+	return result
 }
