@@ -62,7 +62,9 @@ func main() {
 	case "update":
 		return
 	case "help":
-		doHelp(bytes.NewReader(b), os.Args[2:])
+		s, _ := export.Export(f, bytes.NewReader(b))
+		expandedMakefile := fmt.Sprintln(s)
+		doHelp(bytes.NewReader([]bytes(expandedMakefile)), os.Args[2:])
 	case "export":
 		s, _ := export.Export(f, bytes.NewReader(b))
 		fmt.Println(s)
