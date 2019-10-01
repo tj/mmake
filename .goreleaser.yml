@@ -1,0 +1,48 @@
+# This is an example goreleaser.yaml file with some sane defaults.
+# Make sure to check the documentation at http://goreleaser.com
+before:
+  hooks:
+    - go mod download
+builds:
+- id: "mmake"
+  main: ./cmd/mmake/mmake.go
+
+brews:
+-
+  name: mmake
+  github:
+    owner: tj
+    name: mmake
+
+  url_template: "https://github.com/tj/mmake/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
+
+  commit_author:
+    name: goreleaserbot
+    email: goreleaser@carlosbecker.com
+
+  folder: Formula
+  homepage: "https://github.com/tj/mmake"
+  description: "Go wrapper for mmake, a make wrapper"
+  skip_upload: false
+  test: |
+    system "#{bin}/mmake help"
+  install: |
+    bin.install "mmake"
+
+archives:
+- replacements:
+    darwin: darwin
+    linux: linux
+    windows: windows
+    386: i386
+    amd64: x86_64
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ .Tag }}-next"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+    - '^docs:'
+    - '^test:'
