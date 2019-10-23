@@ -7,10 +7,19 @@ and eventually more. It otherwise acts as a pass-through to standard make.
 
 ## Installation
 
-Grab a [binary](https://github.com/tj/mmake/releases) or:
+Mechanisms:
 
+Grab a [binary](https://github.com/tj/mmake/releases)
+
+Build from source:
 ```
 $ go get github.com/tj/mmake/cmd/mmake
+```
+
+Homebrew:
+```
+$ brew tap tj/mmake https://github.com/tj/mmake.git
+$ brew install tj/mmake/mmake
 ```
 
 Next add the following alias to your profile:
