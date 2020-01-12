@@ -136,7 +136,7 @@ $ make size
 
 ### Remote includes
 
-Includes may specify a URL (http, https, or github shortcut) for inclusion, which are automatically downloaded to /usr/local/include and become available to Make. Note that make resolves includes to this directory by default, so the Makefile will still work for regular users.
+Includes may specify a URL (http, https, or github shortcut) for inclusion, which are automatically downloaded to `/usr/local/include` and become available to Make. Note that make resolves includes to this directory by default, so the Makefile will still work for regular users.
 
 Includes are resolved recursively. For example you may have a standard set of includes for your team to run tests, lint, and deploy:
 
