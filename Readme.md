@@ -154,6 +154,12 @@ This can be a lot to remember, so you could also provide a file which includes t
 include github.com/apex/make/all
 ```
 
+If the given repository contains an `index.mk` file, you can can just declare:
+
+```Makefile
+include github.com/apex/make
+```
+
 Or perhaps one per dev environment such as Node or Golang:
 
 ```Makefile
