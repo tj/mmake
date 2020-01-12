@@ -163,6 +163,14 @@ include github.com/apex/make/golang
 
 If you're worried about arbitrary code execution, then simply fork a project and maintain control over it.
 
+#### Update
+
+Once the remote includes are downloaded to `/usr/local/include`, `mmake` will not try to fetch them again. In order to get an updated copy of the remote includes, `mmake` provides an `update` target that will download them again:
+
+```
+$ make update
+```
+
 ## Registry
 
 If you're looking to find or share makefiles check out the [Wiki](https://github.com/tj/mmake/wiki/Registry), and feel free to add a category if it is missing.
