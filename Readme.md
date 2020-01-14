@@ -136,7 +136,7 @@ $ make size
 
 ### Remote includes
 
-Includes may specify a URL (http, https, or github shortcut) for inclusion, which are automatically downloaded to /usr/local/include and become available to Make. Note that make resolves includes to this directory by default, so the Makefile will still work for regular users.
+Includes may specify a URL (http, https, or github shortcut) for inclusion, which are automatically downloaded to `/usr/local/include` and become available to Make. Note that make resolves includes to this directory by default, so the Makefile will still work for regular users.
 
 Includes are resolved recursively. For example you may have a standard set of includes for your team to run tests, lint, and deploy:
 
@@ -154,6 +154,12 @@ This can be a lot to remember, so you could also provide a file which includes t
 include github.com/apex/make/all
 ```
 
+If the given repository contains an `index.mk` file, you can just declare:
+
+```Makefile
+include github.com/apex/make
+```
+
 Or perhaps one per dev environment such as Node or Golang:
 
 ```Makefile
@@ -162,6 +168,14 @@ include github.com/apex/make/golang
 ```
 
 If you're worried about arbitrary code execution, then simply fork a project and maintain control over it.
+
+#### Update
+
+Once the remote includes are downloaded to `/usr/local/include`, `mmake` will not try to fetch them again. In order to get an updated copy of the remote includes, `mmake` provides an `update` target that will download them again:
+
+```
+$ make update
+```
 
 ## Registry
 
