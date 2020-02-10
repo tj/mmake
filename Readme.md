@@ -7,9 +7,11 @@ and eventually more. It otherwise acts as a pass-through to standard make.
 
 ## Installation
 
-Mechanisms:
+Via [gobinaries.com](https://gobinaries.com):
 
-Grab a [binary](https://github.com/tj/mmake/releases)
+```sh
+$ curl -sf https://gobinaries.com/tj/mmake/cmd/mmake | sh
+```
 
 Build from source:
 ```
