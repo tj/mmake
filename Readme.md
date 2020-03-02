@@ -10,7 +10,7 @@ and eventually more. It otherwise acts as a pass-through to standard make.
 Via [gobinaries.com](https://gobinaries.com):
 
 ```sh
-$ curl -sf https://gobinaries.com/tj/mmake/cmd/mmake | sh
+$ curl -sf https://gobinaries.com/tj/mmake/cmd/mmake | sudo sh
 ```
 
 Build from source:
