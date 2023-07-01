@@ -15,7 +15,7 @@ $ curl -sf https://gobinaries.com/tj/mmake/cmd/mmake | sudo sh
 
 Build from source:
 ```
-$ go get github.com/tj/mmake/cmd/mmake
+$ go install github.com/tj/mmake/cmd/mmake@latest
 ```
 
 Homebrew:
